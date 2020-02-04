@@ -112,6 +112,7 @@ def parsingPageOrganization(urlOrganization:str,file):
     print(appendToFile(file,organizationData))
     for item in organizationData.keys():
         print(item,': ',organizationData[item])
+    time.sleep(3)
 
 def getOrganizations(urlFile:str):
     workBook = getWorkBook(urlFile)
