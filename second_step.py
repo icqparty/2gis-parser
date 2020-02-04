@@ -129,7 +129,7 @@ def onetherd(listUrls:list,file):
 
 
 def main():
-    listOrganizations = getOrganizations('data1.xlsx')
+    listOrganizations = getOrganizations('data2.xlsx')
     part1, part2, part3 = np.array_split(listOrganizations,3)
 
     t1 = threading.Thread(target=onetherd,args=(part1,'outdata1.xlsx')) 
