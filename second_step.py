@@ -133,16 +133,16 @@ def main():
     part1, part2, part3 = np.array_split(listOrganizations,3)
 
     t1 = threading.Thread(target=onetherd,args=(part1,'outdata1.xlsx')) 
-    # t2 = threading.Thread(target=onetherd,args=(part2,'outdata2.xlsx')) 
-    # t3 = threading.Thread(target=onetherd,args=(part3,'outdata3.xlsx')) 
+    t2 = threading.Thread(target=onetherd,args=(part2,'outdata2.xlsx')) 
+    t3 = threading.Thread(target=onetherd,args=(part3,'outdata3.xlsx')) 
 
     t1.start()
-    # t2.start()
-    # t3.start()
+    t2.start()
+    t3.start()
 
     t1.join()
-    # t2.join()
-    # t3.join()
+    t2.join()
+    t3.join()
 
 
 
