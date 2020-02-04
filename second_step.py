@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import numpy as np
 import threading
+import time
 
 def getHTML(url: str, headers: dict):
     try:
@@ -59,6 +60,7 @@ def appendToFile(urlFile: str, data: dict)->dict:
     }
 
 def parsingPageOrganization(urlOrganization:str,file):
+    print(urlOrganization)
     headers={
         "Host": "2gis.ru",
         "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:72.0) Gecko/20100101 Firefox/72.0",
@@ -96,7 +98,7 @@ def parsingPageOrganization(urlOrganization:str,file):
     except Exception as e:
         organizationData['phone'] = "non-data"
     try:
-        organizationData['website'] = soup.find('div',{'class':'_599hh'}).find('a',{'class':'_13ptbeu'}).get('href')
+        organizationData['website'] = soup.find('div',{'class':'_599hh'}).find('div',{'class':'_49kxlr'}).find('a',{'class':'_13ptbeu'}).get('href')
     except Exception as e:
         organizationData['website'] = "non-data"
     try:
@@ -128,54 +130,21 @@ def onetherd(listUrls:list,file):
 
 def main():
     listOrganizations = getOrganizations('data1.xlsx')
-    part1, part2, part3,part4, part5, part6 ,part7, part8, part9 = np.array_split(listOrganizations,9)
-    print(len(part1))
-    print(len(part2))
-    print(len(part3))
-    print(len(part4))
-    print(len(part5))
-    print(len(part6))
-    print(len(part7))
-    print(len(part8))
-    print(len(part9))
+    part1, part2, part3 = np.array_split(listOrganizations,3)
 
     t1 = threading.Thread(target=onetherd,args=(part1,'outdata1.xlsx')) 
-    t2 = threading.Thread(target=onetherd,args=(part2,'outdata2.xlsx')) 
-    t3 = threading.Thread(target=onetherd,args=(part3,'outdata3.xlsx')) 
-    t4 = threading.Thread(target=onetherd,args=(part4,'outdata4.xlsx')) 
-    t5 = threading.Thread(target=onetherd,args=(part5,'outdata5.xlsx')) 
-    t6 = threading.Thread(target=onetherd,args=(part6,'outdata6.xlsx')) 
-    t7 = threading.Thread(target=onetherd,args=(part7,'outdata7.xlsx')) 
-    t8 = threading.Thread(target=onetherd,args=(part8,'outdata8.xlsx')) 
-    t9 = threading.Thread(target=onetherd,args=(part9,'outdata9.xlsx')) 
+    # t2 = threading.Thread(target=onetherd,args=(part2,'outdata2.xlsx')) 
+    # t3 = threading.Thread(target=onetherd,args=(part3,'outdata3.xlsx')) 
 
     t1.start()
-    t2.start()
-    t3.start()
-    t4.start()
-    t5.start()
-    t6.start()
-    t7.start()
-    t8.start()
-    t9.start()
+    # t2.start()
+    # t3.start()
 
     t1.join()
-    t2.join()
-    t3.join()
-    t4.join()
-    t5.join()
-    t6.join()
-    t7.join()
-    t8.join()
-    t9.join()
+    # t2.join()
+    # t3.join()
 
-import json
-def fetch(url: str, headers: dict) -> dict:
-    try:
-        response = requests.get(url, headers = headers)
-        return json.loads(response.text) 
-    except Exception as e:
-        raise(e)
+
 
 if __name__ == '__main__':
     main()
